@@ -16,7 +16,7 @@ public class CsvToActiveMqRout extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("file:{{csv.file.uri}}")
-                .split(body().tokenize("\n"))
+                .split(body().tokenize("\n")) //используем split чтобы не загружать весь файл в память
                 .streaming()
                 .routeId("loadCsv")
                 .to("seda:transform");
