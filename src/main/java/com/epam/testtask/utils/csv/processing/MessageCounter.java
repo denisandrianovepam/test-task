@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Используется для подчета отправленных строк и вывода в консоль
+ * Используется для подcчета отправленных строк и вывода в консоль
  */
 @Component("messageCounter")
 public class MessageCounter {
