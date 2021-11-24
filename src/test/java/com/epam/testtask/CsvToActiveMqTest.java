@@ -22,7 +22,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ComponentScan
@@ -48,7 +48,6 @@ public class CsvToActiveMqTest {
     }
 
 
-
     //проверка что начальное кол-во строк в csv файле равняется конечному обаботанному в ActiveMQ
     @Test
     public void sendMessageCountTest() throws Exception {
@@ -66,7 +65,7 @@ public class CsvToActiveMqTest {
         latch = new CountDownLatch(messages);
         latch.await(4000, TimeUnit.SECONDS);
 
-        assertEquals (MessageCounter.getCount(), messages.longValue());
+        assertEquals(MessageCounter.getCount(), messages.longValue());
     }
 
     //Проверка на то, что доставленная строка соотвествует отправленной
@@ -82,9 +81,8 @@ public class CsvToActiveMqTest {
 
         Files.write(path, csvRow.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
-
         latch = new CountDownLatch(1);
-        latch.await(40, TimeUnit.SECONDS);
+        latch.await(120, TimeUnit.SECONDS);
 
         ObjectMapper objectMapper = new ObjectMapper();
         ProductDTO productFromConsumer = objectMapper.readValue(TestMessageConsumer.getLastStr(), ProductDTO.class);
