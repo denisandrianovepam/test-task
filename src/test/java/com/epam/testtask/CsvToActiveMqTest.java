@@ -49,7 +49,7 @@ public class CsvToActiveMqTest {
 
 
 
-
+    //проверка что начальное кол-во строк в csv файле равняется конечному обаботанному в ActiveMQ
     @Test
     public void sendMessageCountTest() throws Exception {
         Integer messages = 50;
@@ -69,6 +69,7 @@ public class CsvToActiveMqTest {
         assertEquals (MessageCounter.getCount(), messages.longValue());
     }
 
+    //Проверка на то, что доставленная строка соотвествует отправленной
     @Test
     public void equalsMessagesTest() throws Exception {
         Path path = Paths.get(fileUri + "test.csv");
@@ -87,6 +88,7 @@ public class CsvToActiveMqTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ProductDTO productFromConsumer = objectMapper.readValue(TestMessageConsumer.getLastStr(), ProductDTO.class);
+        //Так как в ActiveMQ строка попадает в формате JSON, для сравнения преобразовываем в csv формат
         String productJsonToCsvFormat = String.format("%s,%s,%s,%s,%s,%s\n", productFromConsumer.getUniqueID(),
                 productFromConsumer.getProductCode(),
                 productFromConsumer.getProductName(),
